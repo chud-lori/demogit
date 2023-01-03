@@ -1,0 +1,2 @@
+ini merupakan contoh file untuk menyimpan data siswa
+latihan git dengan banyak file 
