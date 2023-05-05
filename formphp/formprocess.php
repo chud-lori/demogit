@@ -1,5 +1,6 @@
 <?php
 print_r($_POST);
+include("connection.php");
 
 // define variables and set to empty values
 $name_error = $email_error = $phone_error = $url_error = $gender_error = $captcha_error = $dateofbirth_error = "";
@@ -37,13 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dateofbirth_error = 'The date of birth is invalid. Please check that the month is between 1 and 12, and the day is valid for that month.';
     }
 
+
     if (empty($_POST['phone'])) {
         $phone_error = "Phone is required";
     } else {
         $phone = test_input($_POST["phone"]);
         // check if phone is well-formed
-        // if (!preg_match("/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i", $phone)) {
-        if (!preg_match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/i", $phone)) {
+        if (!preg_match("/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i", $phone)) {
             $phone_error = "Invalid phone number";
         }
     }
@@ -80,6 +81,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+
+    // if (isset($_POST['captcha'])) {
+    //     $captcha = $_POST['captcha'];
+    //     $random = $_POST['captcha_val'];
+    //     if ($captcha != $random) {
+    //         echo "<script>
+    //     alert('Kamu memasukkan captcha yang salah');
+    //     </script>";
+    //     } else {
+    //         echo "<script>
+    //     alert('Captcha valid');
+    //     </script>";
+    //     }
+    // }
+
+
     // check if error is empty
     if ($name_error == "" and $email_error == "" and $phone_error == "" and $url_error == "" and $gender_error = "" and $dateofbirth_error = "") {
         $message_body = "";
@@ -90,32 +107,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // submit 
-    // $name = $_POST["name"];
-    // $email = $_POST["email"];
-    // $dateofbirth = $_POST["dateofbirth"];
-    // $phone = $_POST["phone"];
-    // $url = $_POST["url"];
-    // $message = $_POST["message"];
-    // $gender = $_POST["gender"];
-    // // (name, email, dateofbirth, phone, url, message, gender)
-    // $sql = "INSERT INTO users (id, name, email, dateofbirth, phone, url, message, gender)
-    //  VALUES ('', '$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
-    // $query = mysqli_query($conn, $sql);
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $dateofbirth = $_POST["dateofbirth"];
+    $phone = $_POST["phone"];
+    $url = $_POST["url"];
+    $message = $_POST["message"];
+    $gender = $_POST["gender"];
+    // (name, email, dateofbirth, phone, url, message, gender)
+    $sql = "INSERT INTO users (id, name, email, dateofbirth, phone, url, message, gender)
+     VALUES ('', '$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
+    $query = mysqli_query($conn, $sql);
 
-    // if ($query) {
-    //     echo "
-    //     <script>
-    //         alert('data berhasil ditambahkan!');
-    //     </script> 
-    //     ";
-    // } else {
-    //     echo "
-    //     <script>
-    //         alert('data gagal ditambahkan!');
+    if ($query) {
+        echo "
+        <script>
+            alert('data berhasil ditambahkan!');
+        </script> 
+        ";
+    } else {
+        echo "
+        <script>
+            alert('data gagal ditambahkan!');
 
-    //     </script> 
-    //     ";
-    // }
+        </script> 
+        ";
+    }
 }
 
 function test_input($data)
