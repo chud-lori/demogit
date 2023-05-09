@@ -27,17 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email_error = "Invalid email format";
         }
     }
-
-    if (empty(date('Y-m-d', strtotime($_POST["dateofbirth"])))) {
+    // print_r($_POST["dateofbirth"]);
+    // die();
+    if (empty(date('d-m-Y', strtotime($_POST["dateofbirth"])))) {
         # the user's date of birth cannot be a null string
         $dateofbirth_error = 'Date of birth is required';
-    } elseif (!preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/', $dateofbirth)) {
+    } elseif (!preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $_POST["dateofbirth"])) {
         # Check the format
-        $dateofbirth_error = 'The date of birth is invalid date in the format MM/DD/YYYY';
-    } elseif (!checkdate($parts[1], $parts[2], $parts[3])) {
-        $dateofbirth_error = 'The date of birth is invalid. Please check that the month is between 1 and 12, and the day is valid for that month.';
+        $dateofbirth_error = 'The date of birth is invalid date in the format YYYY/MM/DD';
     }
-
 
     if (empty($_POST['phone'])) {
         $phone_error = "Phone is required";
@@ -45,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone = test_input($_POST["phone"]);
         // check if phone is well-formed
         if (!preg_match("/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i", $phone)) {
-            $phone_error = "Invalid phone number";
+            $phone_error = "Invalid phone number, example: (123) 456-7890";
         }
     }
 
@@ -97,14 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // }
 
 
-    // check if error is empty
-    if ($name_error == "" and $email_error == "" and $phone_error == "" and $url_error == "" and $gender_error = "" and $dateofbirth_error = "") {
-        $message_body = "";
-        unset($_POST['submit']);
-        foreach ($_POST as $key => $value) {
-            $message_body .= "$key: $value\n";
-        }
-    }
 
     // submit
     $name = $_POST["name"];
@@ -114,18 +104,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $url = $_POST["url"];
     $message = $_POST["message"];
     $gender = $_POST["gender"];
-    // (name, email, dateofbirth, phone, url, message, gender)
-    $sql = "INSERT INTO users (name, email, dateofbirth, phone, url, message, gender)
-     VALUES ('$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
-    $query = mysqli_query($conn, $sql);
+    // check if error is empty
+    if ($name_error == "" and $email_error == "" and $phone_error == "" and $url_error == "" and $gender_error == "" and $dateofbirth_error == "") {
+        $sql = "INSERT INTO users (name, email, dateofbirth, phone, url, message, gender)
+        VALUES ('$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
+        $query = mysqli_query($conn, $sql);
 
-    if ($query) {
         echo "
         <script>
             alert('data berhasil ditambahkan!');
         </script>
         ";
-    } else {
+    }
+    else {
         echo "
         <script>
             alert('data gagal ditambahkan!');
@@ -133,7 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>
         ";
     }
-}
+    }
+    // (name, email, dateofbirth, phone, url, message, gender)
 
 function test_input($data)
 {
