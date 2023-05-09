@@ -25,7 +25,7 @@ include('formprocess.php');
                 <span class="error"><?= $email_error ?></span>
             </fieldset>
             <fieldset>
-                <input placeholder="Your Date of Birth" type="text" name="dateofbirth" value="<?= $dateofbirth ?>" tabindex="2">
+                <input placeholder="Your Date of Birth" type="date" name="dateofbirth" value="<?= $dateofbirth ?>" tabindex="2">
                 <span class="error"><?= $dateofbirth_error ?></span>
             </fieldset>
             <fieldset>

@@ -1,5 +1,5 @@
 <?php
-print_r($_POST);
+// print_r($_POST);
 include("connection.php");
 
 // define variables and set to empty values
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // submit 
+    // submit
     $name = $_POST["name"];
     $email = $_POST["email"];
     $dateofbirth = $_POST["dateofbirth"];
@@ -115,22 +115,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = $_POST["message"];
     $gender = $_POST["gender"];
     // (name, email, dateofbirth, phone, url, message, gender)
-    $sql = "INSERT INTO users (id, name, email, dateofbirth, phone, url, message, gender)
-     VALUES ('', '$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
+    $sql = "INSERT INTO users (name, email, dateofbirth, phone, url, message, gender)
+     VALUES ('$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
     $query = mysqli_query($conn, $sql);
 
     if ($query) {
         echo "
         <script>
             alert('data berhasil ditambahkan!');
-        </script> 
+        </script>
         ";
     } else {
         echo "
         <script>
             alert('data gagal ditambahkan!');
 
-        </script> 
+        </script>
         ";
     }
 }
