@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = $_POST["message"];
     $gender = $_POST["gender"];
     // check if error is empty
-    if ($name_error == "" and $email_error == "" and $phone_error == "" and $url_error == "" and $gender_error == "" and $dateofbirth_error == "") {
+    if ($name_error == "" and $email_error == "" and $phone_error == "" and $url_error == "" and $gender_error == "" and $dateofbirth_error == "" and $captcha_error == "") {
         $sql = "INSERT INTO users (name, email, dateofbirth, phone, url, message, gender)
         VALUES ('$name', '$email','$dateofbirth','$phone','$url','$message','$gender')";
         $query = mysqli_query($conn, $sql);
