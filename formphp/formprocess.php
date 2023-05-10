@@ -42,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $phone = test_input($_POST["phone"]);
         // check if phone is well-formed
-        if (!preg_match("/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i", $phone)) {
-            $phone_error = "Invalid phone number, example: (123) 456-7890";
+        if (!preg_match("/^0\d{11}$/", $phone)) {
+            $phone_error = "Invalid phone number, example: 081765853353";
         }
     }
 
